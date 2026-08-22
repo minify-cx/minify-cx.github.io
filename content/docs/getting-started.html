@@ -1,9 +1,14 @@
 <div class="doc">@input("templates/sidebar.html")<article><div class="ey">Start</div><h1>Getting started</h1>
 <p class="lead">Build the tiny native CLI, minify a file, then decide whether Minify++ belongs directly in your deployment pipeline or behind another build tool.</p>
-<h2>Build from source</h2>
-<pre><code class="language-bash">make
+  <h2>Install</h2>
+  <pre><code class="language-bash">curl -fsSL https://nift-dev.github.io/minify-website/install | sh</code></pre>
+  <p>The installer downloads the latest official release for your platform, verifies its SHA-256 checksum against <code>SHA256SUMS</code> from the GitHub release, and installs <code>minify</code> to <code>~/.local/bin</code> by default. It never uses sudo and does not modify shell profiles. Set <code>MINIFY_INSTALL_DIR</code> to choose another directory, or <code>MINIFY_VERSION</code> to pin a specific release.</p>
+  <p>Installation requires no runtime beyond the single native binary. Supported platforms are Linux x86-64, macOS arm64/x86-64 and Windows x86-64.</p>
+
+  <h2>Build from source</h2>
+  <pre><code class="language-bash">make
 ./minify --version</code></pre>
-<p>The project is deliberately self-contained. Nift is not required to build or run Minify++.</p>
+  <p>The project is deliberately self-contained. Nift is not required to build or run Minify++.</p>
 <h2>Your first minification</h2>
 <pre><code class="language-bash">minify app.js styles.css data.json</code></pre>
 <p>Minify++ keeps the originals and writes sibling outputs:</p>

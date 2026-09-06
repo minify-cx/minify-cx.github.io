@@ -73,6 +73,12 @@ When public behavior changes:
 6. Review release/download references and maturity language.
 7. Review this handover and the product roadmap.
 
+The extensionless root files `install`, `download`, `update` and `uninstall`
+must remain byte-identical to the canonical scripts in the Minify++
+repository's `packaging/` directory. Their generated `public/` copies are
+committed first. Deploy and byte-verify all four before running the library's
+non-publishing release rehearsal.
+
 Internal refactors without public effect normally require only compatibility
 validation, not marketing churn.
 
@@ -84,7 +90,7 @@ Nift's branding merely to manufacture a suite identity.
 
 ## Living production-support roadmap
 
-Current priorities: reconcile site against Minify++ 1.1.0, ensure no stale Sift
+Current priorities: reconcile site against Minify++ 1.1.1, ensure no stale Sift
 identity, audit supported-format and malformed-input wording, verify examples and
 test counts, contextualize benchmarks, describe standalone/Nift boundaries, and
 validate release/download/publication information before production claims.

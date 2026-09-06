@@ -35,7 +35,7 @@ The site should explain a deliberately focused tool simply and honestly:
 Use the straightforward `minify` CLI as a strength. Do not invent a platform,
 ecosystem, bundler, or compiler story around it.
 
-Current identity is Minify++ 1.1.0; Sift is historical. Audit any old branding.
+Current identity is Minify++ 1.1.1; Sift is historical. Audit any old branding.
 Minify++ is standalone. Nift consumes its public API for explicitly configured
 final-output minification; Minify++ does not depend on Nift.
 

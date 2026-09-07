@@ -17,42 +17,61 @@
   const escapeHtml = source => source
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
+  const tokenize = (text, rules) => {
+    const source = rules.map(rule => '(' + rule[0].source + ')').join('|');
+    const re = new RegExp(source, 'gm');
+    return text.replace(re, function () {
+      for (let i = 0; i < rules.length; i++) {
+        if (arguments[i + 1] !== undefined) {
+          return '<span class="' + rules[i][1] + '">' + arguments[i + 1] + '</span>';
+        }
+      }
+      return arguments[0];
+    });
+  };
 
   const highlightCode = (raw, language) => {
-    let text = escapeHtml(raw);
+    const text = escapeHtml(raw);
     if (language === 'plaintext' || !language) return text;
 
     if (language === 'bash') {
-      return text
-        .replace(/(^|\n)(\s*#.*)/g, '$1<span class="com">$2</span>')
-        .replace(/(&quot;[^&\n]*?&quot;|'[^'\n]*?')/g, '<span class="str">$1</span>')
-        .replace(/(^|\s)(--?[a-zA-Z0-9][\w-]*)/g, '$1<span class="kw">$2</span>')
-        .replace(/\b(make|curl|git|cmake|nift|minify|python3)\b/g, '<span class="cmd">$1</span>');
+      return tokenize(text, [
+        [/^[ \t]*#.*$/m, 'com'],
+        [/&quot;[^&\n]*?&quot;|'[^'\n]*?'/g, 'str'],
+        [/(?:^|[\s])--?[a-zA-Z0-9][\w-]*/g, 'kw'],
+        [/\b(make|curl|git|cmake|nift|minify|python3)\b/g, 'cmd']
+      ]);
     }
 
     if (language === 'json') {
-      return text
-        .replace(/(&quot;[^&\n]*?&quot;)(\s*:)?/g, (m, value, colon) => colon ? `<span class="key">${value}</span>${colon}` : `<span class="str">${value}</span>`)
-        .replace(/\b(true|false|null)\b/g, '<span class="kw">$1</span>')
-        .replace(/\b(-?\d+(?:\.\d+)?)\b/g, '<span class="num">$1</span>');
+      return tokenize(text, [
+        [/&quot;[^&\n]*?&quot;(?=\s*:)/g, 'key'],
+        [/&quot;[^&\n]*?&quot;/g, 'str'],
+        [/\b(true|false|null)\b/g, 'kw'],
+        [/\b-?\d+(?:\.\d+)?\b/g, 'num']
+      ]);
     }
 
     if (language === 'cpp') {
-      return text
-        .replace(/(^|\n)(\s*#(?:include|define|if|ifdef|ifndef|endif)[^\n]*)/g, '$1<span class="pre">$2</span>')
-        .replace(/(\/\/[^\n]*|\/\*[\s\S]*?\*\/)/g, '<span class="com">$1</span>')
-        .replace(/(&quot;[^&\n]*?&quot;|'[^'\n]*?')/g, '<span class="str">$1</span>')
-        .replace(/\b(bool|char|class|const|double|else|enum|false|float|for|if|int|namespace|nullptr|private|public|return|std|string|struct|true|void|while)\b/g, '<span class="kw">$1</span>')
-        .replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="num">$1</span>');
+      return tokenize(text, [
+        [/#(?:include|define|if|ifdef|ifndef|endif)[^\n]*/g, 'pre'],
+        [/\/\/[^\n]*|\/\*[\s\S]*?\*\//g, 'com'],
+        [/&quot;[^&\n]*?&quot;|'[^'\n]*?'/g, 'str'],
+        [/\b(bool|char|class|const|double|else|enum|false|float|for|if|int|namespace|nullptr|private|public|return|std|string|struct|true|void|while)\b/g, 'kw'],
+        [/\b\d+(?:\.\d+)?\b/g, 'num']
+      ]);
     }
 
     if (language === 'javascript' || language === 'jsx') {
-      return text
-        .replace(/(\/\/[^\n]*|\/\*[\s\S]*?\*\/)/g, '<span class="com">$1</span>')
-        .replace(/(&quot;[^&\n]*?&quot;|'[^'\n]*?'|`[^`]*?`)/g, '<span class="str">$1</span>')
-        .replace(/\b(import|export|from|default|function|class|extends|const|let|var|return|new|async|await|true|false|null)\b/g, '<span class="kw">$1</span>')
-        .replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="num">$1</span>');
+      return tokenize(text, [
+        [/\/\/[^\n]*|\/\*[\s\S]*?\*\//g, 'com'],
+        [/&quot;[^&\n]*?&quot;|'[^'\n]*?'|`[^`]*?`/g, 'str'],
+        [/\b(import|export|from|default|function|class|extends|const|let|var|return|new|async|await|true|false|null)\b/g, 'kw'],
+        [/\b\d+(?:\.\d+)?\b/g, 'num']
+      ]);
     }
 
     return text;

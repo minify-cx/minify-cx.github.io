@@ -8,6 +8,13 @@ root. On `stage`, `public/` is an embedded checkout of this repository's `main`
 branch and is recorded as a Git link, matching the established Nift website
 workflow. This handover belongs only on `stage`; do not place it on built `main`.
 
+- Canonical repository: `minify-cx/minify` at `https://github.com/minify-cx/minify`.
+- Website source: `minify-cx/minify-cx.github.io` on `stage`; generated output on `main`.
+- Public domain: `https://minify.cx` (CNAME committed in `public/`).
+- Issue tracker: `https://github.com/minify-cx/minify/issues`.
+- Release downloads: `https://github.com/minify-cx/minify/releases/download`.
+- Installer endpoints: `https://minify.cx/{install.sh,download.sh,update.sh,uninstall.sh}`.
+
 Edit source, run Nift to regenerate, and inspect the result. Do not hand-edit
 generated HTML as the canonical change. The current configuration uses
 `public/` output, modified-mode incrementality, and `templates/template.html`.
@@ -73,11 +80,12 @@ When public behavior changes:
 6. Review release/download references and maturity language.
 7. Review this handover and the product roadmap.
 
-The extensionless root files `install`, `download`, `update` and `uninstall`
-must remain byte-identical to the canonical scripts in the Minify++
-repository's `packaging/` directory. Their generated `public/` copies are
-committed first. Deploy and byte-verify all four before running the library's
-non-publishing release rehearsal.
+The canonical `packaging/install.sh`, `download.sh`, `update.sh` and
+`uninstall.sh` scripts are served byte-for-byte as the corresponding `.sh`
+endpoints below `https://minify.cx/`. Copy all four to the website root and the
+generated `public/` checkout whenever they change. Their generated `public/`
+copies are committed first. Deploy and byte-verify all four before running the
+library's non-publishing release rehearsal.
 
 Internal refactors without public effect normally require only compatibility
 validation, not marketing churn.
@@ -173,3 +181,8 @@ output aligned with this rule when adding or renaming pages.
 - `docs/memory-safety` now records the independent Valgrind completion of the standalone Minify++ lifetime gate: Valgrind 3.26.0, Linux x86_64, canonical commit `2a51a38`, 30 maintained lifetime-corpus iterations, 0 errors, 0 bytes in use at exit, all 2,448 allocations freed, and 184,908 KiB peak process RSS.
 - Keep detailed memory numbers on the living memory-safety page. Battle Tested should summarize/link the evidence layer rather than duplicate a snapshot.
 - No production Minify++ source repair was required by Checkpoint 2. Future changes affecting allocation/lifetime behavior should invalidate or refresh this evidence explicitly.
+
+## Website metadata
+
+- Canonical link tags and Open Graph metadata are emitted from `templates/head.html` against the public domain.
+- `content/sitemap.xml` is a tracked Nift page listing every page URL under the canonical domain; rebuild and commit its `public/sitemap.xml` output with the site.

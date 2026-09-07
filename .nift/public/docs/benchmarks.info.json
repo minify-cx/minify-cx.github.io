@@ -19,6 +19,7 @@
   ],
   "reqs": [
     "public/assets/css/style.css",
+    "public/assets/favicon.svg",
     "public/assets/js/benchmarks.js",
     "public/assets/js/script.js",
     "public/assets/vendor/chart.umd.js",
@@ -31,6 +32,7 @@
     "public/docs/benchmarks.html",
     "public/docs/cli.html",
     "public/docs/comparisons.html",
+    "public/docs/conformance.html",
     "public/docs/formats.html",
     "public/docs/getting-started.html",
     "public/docs/memory-safety.html",

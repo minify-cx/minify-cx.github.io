@@ -4,11 +4,13 @@ set -euo pipefail
 root=$(cd "$(dirname "$0")/.." && pwd)
 cd "$root"
 
-for page in index docs docs/getting-started docs/api docs/architecture docs/formats docs/cli docs/comparisons docs/benchmarks docs/memory-safety docs/performance docs/production-readiness docs/battle-tested docs/ai-development docs/ai-opinion; do
+for page in index docs docs/getting-started docs/api docs/architecture docs/formats docs/cli docs/comparisons docs/benchmarks docs/memory-safety docs/performance docs/production-readiness docs/battle-tested docs/conformance docs/ai-development docs/ai-opinion; do
     test -s "public/$page.html"
     grep -F '<meta name="viewport"' "public/$page.html" >/dev/null
     grep -F 'assets/css/style.css' "public/$page.html" >/dev/null
     grep -F 'assets/js/script.js' "public/$page.html" >/dev/null
+    grep -F '<title>Minify++</title>' "public/$page.html" >/dev/null
+    grep -F 'rel="icon" type="image/svg+xml"' "public/$page.html" >/dev/null
 done
 
 for script in install.sh download.sh update.sh uninstall.sh; do
@@ -54,6 +56,14 @@ if grep -F 'release candidate' public/index.html >/dev/null; then
     exit 1
 fi
 grep -F 'latest release' public/index.html >/dev/null
+if grep -F 'Current decision: PASS WITH KNOWN LIMITATIONS.' public/index.html >/dev/null; then
+    echo 'stale decision card found on homepage' >&2
+    exit 1
+fi
+grep -F '31,137 WPT-derived CSS cases audited.' public/index.html >/dev/null
+grep -F '30,579' public/docs/conformance.html >/dev/null
+grep -F 'updated after the CSS conformance audit and v1.1.1 release' public/docs/ai-opinion.html >/dev/null
+test -s public/assets/favicon.svg
 test -s public/sitemap.xml
 
 echo 'Minify++ website smoke checks passed'

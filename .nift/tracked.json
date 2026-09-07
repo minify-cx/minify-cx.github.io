@@ -56,6 +56,11 @@
       "template": "templates/template.html"
     },
     {
+      "name": "docs/conformance",
+      "title": "Conformance",
+      "template": "templates/template.html"
+    },
+    {
       "name": "docs/memory-safety",
       "title": "Memory & resource safety",
       "template": "templates/template.html"
@@ -95,6 +100,13 @@
       "template": "templates/asset.txt",
       "content-ext": ".js",
       "output-ext": ".js"
+    },
+    {
+      "name": "assets/favicon",
+      "title": "Minify++ favicon",
+      "template": "templates/asset.txt",
+      "content-ext": ".svg",
+      "output-ext": ".svg"
     },
     {
       "name": "assets/vendor/chart.umd",

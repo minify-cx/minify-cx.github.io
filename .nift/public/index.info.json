@@ -18,6 +18,7 @@
   ],
   "reqs": [
     "public/assets/css/style.css",
+    "public/assets/favicon.svg",
     "public/assets/js/script.js",
     "public/docs.html",
     "public/docs/ai-development.html",
@@ -25,6 +26,7 @@
     "public/docs/api.html",
     "public/docs/battle-tested.html",
     "public/docs/cli.html",
+    "public/docs/conformance.html",
     "public/docs/formats.html",
     "public/docs/getting-started.html",
     "public/docs/production-readiness.html",

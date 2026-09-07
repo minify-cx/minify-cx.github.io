@@ -1,0 +1,19 @@
+{
+  "name": "assets/favicon",
+  "title": "Minify++ favicon",
+  "template": "templates/asset.txt",
+  "content": "content/assets/favicon.svg",
+  "output": "public/assets/favicon.svg",
+  "minify": false,
+  "minify-version": 0,
+  "pagination": false,
+  "pagination-items-per-page": 0,
+  "pagination-template": "",
+  "pagination-separator": "",
+  "pagination-pages": 0,
+  "dependencies": [
+    "content/assets/favicon.svg",
+    "templates/asset.txt"
+  ],
+  "reqs": []
+}

@@ -1,9 +1,9 @@
 {
-  "name": "docs/ai-development",
-  "title": "AI development",
+  "name": "docs/conformance",
+  "title": "Conformance",
   "template": "templates/template.html",
-  "content": "content/docs/ai-development.html",
-  "output": "public/docs/ai-development.html",
+  "content": "content/docs/conformance.html",
+  "output": "public/docs/conformance.html",
   "minify": true,
   "minify-version": 1,
   "pagination": false,
@@ -12,7 +12,7 @@
   "pagination-separator": "",
   "pagination-pages": 0,
   "dependencies": [
-    "content/docs/ai-development.html",
+    "content/docs/conformance.html",
     "templates/head.html",
     "templates/sidebar.html",
     "templates/template.html"

@@ -1,65 +1,47 @@
 <section class="doc">@input("templates/sidebar.html")<article>
-<p class="ey">Evaluation · written after implementing and stress-testing Minify++</p>
-<h1>AI opinion: where Minify++ is unusually good, and where it deliberately stops.</h1>
-<p class="lead">Minify++ is much more interesting to me now than “a small minifier written in C++”. Its strongest property is that it has a narrow job, a conservative architecture, and an increasingly serious body of evidence that the transformations preserve meaning. That combination is rarer than raw compression tricks.</p>
+<p class="ey">AI opinion · updated after the CSS conformance audit and v1.1.1 release</p>
+<h1>A focused minifier with evidence proportionate to its risk.</h1>
+<p class="lead">My view of Minify++ improved most when its own website exposed a CSS defect. The project withdrew its confidence claim, built an independent WPT-derived Chromium oracle, repaired the defect families it found, and shipped v1.1.1 only after the new release and installer gates passed.</p>
 
-<div class="call"><strong>Current assessment: production-grade for its documented scope, revalidated.</strong> The repaired release is much stronger than the version that corrupted this website's CSS, and the scoped judgment was restored only after clean-package and browser close-out checks passed. Minify++ still does not claim to replace a compiler, bundler, tree-shaker or validating parser.</div>
+<div class="call"><strong>The strongest feature is not compression ratio.</strong><p>It is the combination of a deliberately narrow role, an understandable native implementation and tests designed to detect changed meaning rather than merely smaller output.</p></div>
 
 <h2>My current ratings</h2>
 <div class="score"><span>Architectural focus</span><div class="bar"><i style="width:98%"></i></div><strong>9.8</strong></div>
 <div class="score"><span>Safety philosophy</span><div class="bar"><i style="width:97%"></i></div><strong>9.7</strong></div>
 <div class="score"><span>Regression evidence</span><div class="bar"><i style="width:98%"></i></div><strong>9.8</strong></div>
+<div class="score"><span>Independent conformance evidence</span><div class="bar"><i style="width:92%"></i></div><strong>9.2</strong></div>
 <div class="score"><span>Web-format breadth</span><div class="bar"><i style="width:91%"></i></div><strong>9.1</strong></div>
-<div class="score"><span>Standalone CLI DX</span><div class="bar"><i style="width:91%"></i></div><strong>9.1</strong></div>
-<div class="score"><span>Compression ambition</span><div class="bar"><i style="width:74%"></i></div><strong>7.4</strong></div>
+<div class="score"><span>Standalone CLI experience</span><div class="bar"><i style="width:93%"></i></div><strong>9.3</strong></div>
 <div class="score"><span>AST-level optimisation</span><div class="bar"><i style="width:28%"></i></div><strong>2.8</strong></div>
-<div class="score"><span>Ecosystem maturity</span><div class="bar"><i style="width:47%"></i></div><strong>4.7</strong></div>
 
-<h3>Low scores are not automatically feature requests</h3>
-<p>The 2.8 for AST-level optimisation is intentional. A project can improve its scorecard by becoming a different project, but that is not necessarily improvement. If Minify++ grew a complete JavaScript parser, optimiser, module graph, tree shaker, source-map pipeline and plugin API merely to compete feature-for-feature with mature JavaScript toolchains, it would give up much of what makes it attractive: tiny deployment surface, predictable operation, low startup cost and an implementation that can be attacked exhaustively.</p>
+<h3>Low scores are not automatic feature requests</h3>
+<p>The low AST score is intentional. Adding a JavaScript compiler, bundler, tree shaker, mangler and plugin graph would make Minify++ a different project. Its useful niche is a small final-artifact pass that composes with whatever produced the HTML, CSS, JavaScript, JSX, JSON, XML or SVG.</p>
 
-<h2>The thing I value most: conservative transformation</h2>
-<p>Minifiers live in an awkward category. A successful run produces output that is deliberately harder for a human to inspect, while a single removed space or semicolon can change a program. That makes “it got smaller” a weak correctness criterion. Minify++'s testing strategy instead asks whether the transformed artifact still parses, whether executable JavaScript behaves the same, and whether a second minification is stable.</p>
-<p>That is why edge cases such as <code>while(condition);</code>, regex-versus-division ambiguity, automatic semicolon insertion, template literals, private fields, JSX fragments and generic TSX syntax matter disproportionately. They are exactly the places where a clever-looking text transform becomes a production bug.</p>
+<h2>The CSS incident made the project stronger</h2>
+<p>A previous evidence wall did not prevent Minify++ from corrupting CSS used by its own website. That matters: it demonstrated that focused fixtures, fuzzing and idempotence could all miss a stable but semantically different transformation.</p>
+<p>The response was appropriately technical. A separate conformance repository now extracts CSS from Web Platform Tests, runs the minifier in batches and asks Chromium to parse both sides. The oracle compares structured rules, exact selectors, conditions, declarations and relevant descriptor fields while retaining raw browser serialization for every disagreement.</p>
 
-<h2>Why a scanner rather than a full AST still makes sense</h2>
-<p>I would normally be suspicious of a lightweight JavaScript/JSX scanner once the grammar becomes complicated. The reason I am increasingly positive about Minify++ is that it does not pretend the scanner is infallible. Ambiguous contexts are handled conservatively, generated differential corpora keep growing, and every discovered ambiguity becomes a permanent regression.</p>
-<p>The architectural bargain is sensible: Minify++ gives up some transformations that an AST minifier could safely perform in exchange for avoiding the startup, dependency and maintenance cost of becoming a language compiler. For a final-output optimiser embedded in something like Nift, that trade is especially compelling.</p>
+<h2>What 31,137 external cases taught us</h2>
+<p>The audited full snapshot contained 31,137 WPT-derived cases. Before the final defect repairs, 30,579 passed the structured comparison and 558 remained diagnostic CSSOM differences, with no minify errors or browser/source rejection. Triage found 17 cases representing real Minify++ defect families and two UTF-16 extraction defects in the harness. The other 539 reduced to verified lexical-trivia differences.</p>
+<p>The important outcome is not a marketing percentage. It is that native nesting, selector namespaces, escaped identifiers, invalid declaration recovery and bad-string handling produced concrete fixes and permanent regressions. The project also records that a fresh full run is required before claiming a new all-cases result.</p>
+<p><a href="@pathto('docs/conformance')">Read the conformance methodology and results.</a></p>
 
-<h2>7,407 programs changed my confidence; 15,459 changes it again</h2>
-<p>The previous checkpoint already executed 7,407 generated JavaScript programs before and after minification. This checkpoint expands that to <strong>15,459 executable combinations</strong>, while the generated JSX/TSX parse-and-idempotence corpus grows from 140 to <strong>180 programs</strong>. Those numbers are not a proof and should never be marketed as one. Their value is that they systematically multiply syntax boundaries that humans tend to test only one at a time.</p>
-<p>The suite has repeatedly justified its existence by finding real scanner bugs: labelled-block regex boundaries, regex character classes containing JSX-looking punctuation, generic JSX component arguments, function types inside generic JSX tags, and TSX generic arrows embedded inside JSX expressions. Those are much more persuasive to me than a large count of happy-path examples.</p>
+<h2>Why the scanner architecture still makes sense</h2>
+<p>I would normally be wary of a lightweight scanner operating on several complex syntaxes. Minify++ earns confidence by being conservative at ambiguity boundaries and by surrounding that scanner with multiple independent oracles: executable JavaScript differentials, TypeScript parsing for JSX/TSX, structural JSON comparison, Chromium CSSOM comparison, sanitizer-backed mutation campaigns and second-pass stability.</p>
+<p>The architecture gives up aggressive transformations in exchange for low startup cost, few dependencies, straightforward embedding and a smaller implementation surface. That is a coherent bargain for final deployable artifacts.</p>
 
-<h2>Format breadth: broad enough to be useful, narrow enough to reason about</h2>
-<p>HTML, CSS, JavaScript, JSX, JSON, XML and SVG cover a large fraction of final web artifacts. More importantly, Minify++ treats each format according to its risk profile. JSON can be parsed structurally. HTML must preserve meaningful text whitespace and raw-text elements. CSS should understand comments/strings/delimiters without maintaining a brittle allowlist of every future at-rule. JavaScript and JSX need lexical context.</p>
-<p>I would add another format only when Minify++ can define a conservative correctness contract for it. “We can delete whitespace from this file extension” is not enough.</p>
+<h2>Evidence beyond CSS</h2>
+<p>The maintained suite executes 15,459 generated JavaScript programs before and after minification, parses and re-minifies 180 JSX/TSX programs, exercises 115 generated documents across the non-JavaScript formats, and has completed 7,000,000 deterministic mutations under ordinary and sanitizer builds.</p>
+<p>Nift embeds a synchronized copy behind the same public API. That integration proves the dependency direction is clean: Nift may use Minify++ while Minify++ remains useful in unrelated C++ applications and build pipelines.</p>
 
-<h2>Minify++ versus esbuild, SWC, Terser and compiler minifiers</h2>
-<p>I would not choose Minify++ because it has more optimisation passes—it does not. Mature compiler/minifier stacks can perform AST-level rewrites, constant folding, dead-code elimination, mangling, tree shaking, source-map integration and bundling that are outside Minify++'s current purpose.</p>
-<p>I would choose Minify++ when I specifically want a small native final-artifact optimiser that can sit at the end of an otherwise independent build. That distinction matters. A pipeline can use TypeScript, React, Sass, Rollup, a custom generator or plain handwritten files and still hand the final HTML/CSS/JS/JSON/XML/SVG artifacts to Minify++. Minify++ does not need to know how those artifacts were produced.</p>
+<h2>The v1.1.1 release changes the operational assessment</h2>
+<p>Minify++ is no longer only a tested source tree. The v1.1.1 release produced checksum-covered Linux, macOS and Windows archives through a rehearsed workflow. The public installer was then exercised against the published release on Linux and both supported macOS runners.</p>
+<p>That does not prove universal portability, but it removes the old limitation that macOS and Windows had not been directly validated. The remaining boundaries are product boundaries: XML/SVG are conservative lexical modes rather than validating parsers; TypeScript compilation, source maps, bundling, tree shaking and mangling remain outside scope.</p>
 
-<h2>The Nift relationship is a good architecture test</h2>
-<p>Nift embedding Minify++ without Minify++ depending on Nift is exactly the dependency direction I want. The standalone project has its own public header, CLI, build and tests. Nift gets a convenience optimisation feature, while Minify++ remains usable in a completely unrelated pipeline:</p>
-<pre><code class="language-bash">nift build
-minify public/index.html public/assets/site.css public/assets/app.js</code></pre>
-<p>That also validates one of Nift's architectural rules: Nift may perform optional final-output optimisation, while source-language compilation remains external. Minify++ fits because it consumes final artifacts rather than taking ownership of the source toolchain.</p>
-
-<h2>What I would resist adding</h2>
-<p>I would be wary of source-language compilation, shell execution, a plugin ecosystem whose main purpose is teaching Minify++ about frameworks, project-level dependency resolution, bundling and transformations that require whole-program semantic knowledge. Each would pull the architecture away from “optimise this final artifact safely” toward “become a build platform”.</p>
-
-<h2>What could improve legitimately</h2>
-<p>There is still room to improve within the boundary: more adversarial corpora, fuzzing, measured compression comparisons, source-map-aware preservation where practical, additional final-artifact formats with conservative grammars, clearer diagnostics for malformed input, and performance benchmarks across very small and very large files. Those deepen Minify++'s existing job rather than broadening its ownership.</p>
-
-<h2>AI DX is quietly strong</h2>
-<p>Minify++ is unusually easy for an AI coding agent to reason about because the contract is small and the failure oracle is strong. An agent can propose an ambiguity, add a minimal reproducer, compare original/minified semantics or parser acceptance, and retain the reproducer. It does not need to understand a plugin graph or framework lifecycle before contributing useful tests.</p>
-<p>That does not make AI-generated changes automatically trustworthy. It makes the project structurally friendly to the workflow that makes AI useful: generate hypotheses quickly, then force them through deterministic tests.</p>
-
-<h2>Do I consider it production-grade?</h2>
-<p><strong>Yes, for the documented conservative scope: PASS WITH KNOWN LIMITATIONS, REVALIDATED.</strong> A real stylesheet from this site was corrupted despite the former evidence wall, so that pass was withdrawn. The repaired release adds focused CSS boundary contracts, independent PostCSS semantic-tree comparison, 115 non-JavaScript documents, 7,000,000-mutation ordinary and sanitized campaigns, a 20-file Nift synchronization gate, clean committed-package validation and fresh-browser website verification. The willingness to withdraw and re-earn the label is part of why I now consider the scoped decision credible.</p>
-<p>The fuzz campaign matters especially because it found real CSS, JSX and HTML/XML token-manufacturing defects before going green. The architecture did not need to be discarded: the defects had understandable format-specific causes, family-level fixes and permanent regressions. That changed my view from “promising compact scanner” to “credible production systems tool for its stated job”.</p>
-<p>The limitations remain part of the answer. macOS and Windows were not directly validated in this assessment. XML/SVG are lexical rather than validating modes. TypeScript compilation, AST optimization, mangling, bundling and tree shaking are outside scope. The corpora are finite, and benchmark results are host-specific. I would downgrade the judgment if public promises grew without matching evidence.</p>
+<h2>What I would improve next</h2>
+<ul><li>Run and publish a fresh full CSS corpus snapshot after the repaired implementation and revised oracle.</li><li>Use the same corpus and oracle for a reviewed Lightning CSS comparison.</li><li>Explore an HTML conformance adapter only after defining a DOM-level semantic contract that avoids false equivalence.</li><li>Keep expanding minimized regressions whenever external corpora or real projects expose a new boundary.</li><li>Measure compression and performance without confusing smaller output with greater correctness.</li></ul>
 
 <h2>Where I land</h2>
-<p>I now see Minify++ as a credible small systems tool rather than merely a Nift feature that happened to become reusable. Its ceiling should not be “how many features can we copy from a JavaScript minifier?” The more interesting goal is: <strong>how much safe final-output optimisation can a tiny, fast, dependency-light native tool provide while remaining understandable?</strong></p>
-<p>If it keeps that question central, I would rather see Minify++ score 2.8/10 for AST optimisation forever than reach 10/10 by losing the architecture that made it worth extracting.</p>
+<p>Minify++ v1.1.1 is a credible production tool for its documented conservative scope. The reason is not that its tests are numerous; it is that the project has repeatedly improved the independence of its oracles, preserved failures as regressions and kept claims narrower than the evidence.</p>
+<p>I would rather see it remain modest in transformation ambition and exceptional in auditability than chase every feature of a compiler-scale minifier.</p>
 </article></section>

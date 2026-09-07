@@ -18,6 +18,7 @@ for script in install.sh download.sh update.sh uninstall.sh; do
     sh -n "$script"
 done
 
+grep -F 'curl -fsSL https://minify.cx/install.sh | sh' public/index.html >/dev/null
 grep -F 'curl -fsSL https://minify.cx/install.sh | sh' public/docs/getting-started.html >/dev/null
 grep -F 'SHA256SUMS' public/docs/getting-started.html >/dev/null
 grep -F 'MINIFY_INSTALL_DIR' public/docs/getting-started.html >/dev/null

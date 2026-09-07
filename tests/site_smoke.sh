@@ -49,6 +49,11 @@ if grep -rF --include='*.html' 'nift-dev' public >/dev/null; then
 fi
 
 grep -F '<link rel="sitemap"' public/index.html >/dev/null
+if grep -F 'release candidate' public/index.html >/dev/null; then
+    echo 'stale release candidate phrase on homepage' >&2
+    exit 1
+fi
+grep -F 'latest release' public/index.html >/dev/null
 test -s public/sitemap.xml
 
 echo 'Minify++ website smoke checks passed'

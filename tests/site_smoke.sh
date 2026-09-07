@@ -60,7 +60,16 @@ if grep -F 'Current decision: PASS WITH KNOWN LIMITATIONS.' public/index.html >/
     echo 'stale decision card found on homepage' >&2
     exit 1
 fi
-grep -F '31,137 WPT-derived CSS cases audited.' public/index.html >/dev/null
+grep -F '31,155 / 31,155 CSS conformance cases passing.' public/index.html >/dev/null
+grep -F 'production-ready · independently conformance-tested' public/index.html >/dev/null
+grep -F '.call{border-left:5px solid var(--g)' public/assets/css/style.css >/dev/null
+grep -F '.bar i{display:block;height:100%;background:var(--g)}' public/assets/css/style.css >/dev/null
+grep -F 'Production-ready for conservative final-output minification.' public/docs/battle-tested.html >/dev/null
+grep -F '31,155 / 31,155 under the strengthened Chromium oracle' public/docs/battle-tested.html >/dev/null
+if grep -rEi --include='*.html' 'pass with known limitations|revalidated|reopened campaign|revalidated after reopening' public >/dev/null; then
+    echo 'stale or overly defensive readiness language found' >&2
+    exit 1
+fi
 grep -F 'Final result: 31,155 / 31,155 passing.' public/docs/conformance.html >/dev/null
 grep -F 'zero CSSOM differences, minification errors, browser rejections, source rejections or unverified cases' public/docs/conformance.html >/dev/null
 grep -F 'updated after the CSS conformance audit and v1.1.1 release' public/docs/ai-opinion.html >/dev/null

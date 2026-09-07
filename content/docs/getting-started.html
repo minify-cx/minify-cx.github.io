@@ -46,5 +46,5 @@ make benchmark</code></pre>
 <p>The complete test target covers direct format, JavaScript semantic, JSX/TSX, non-JavaScript, cross-format and CLI gates. Fuzzing, sanitizers and performance are separate explicit production-evidence targets.</p>
 <h2>Use a release pipeline safely</h2>
 <ol><li>Build or generate the final artifacts.</li><li>Keep the unminified output until Minify++ succeeds.</li><li>Minify only supported extensions.</li><li>Treat non-zero status as a failed optimization step.</li><li>Deploy the completed artifacts.</li></ol>
-<div class="call"><strong>Do not point the current CLI at a directory.</strong> It accepts named regular files. Use your build system or file-discovery tool to supply those paths; directory traversal is a possible future convenience, not current behavior.</div>
+<div class="call warn"><strong>Do not point the current CLI at a directory.</strong> It accepts named regular files. Use your build system or file-discovery tool to supply those paths; directory traversal is a possible future convenience, not current behavior.</div>
 </article></div>

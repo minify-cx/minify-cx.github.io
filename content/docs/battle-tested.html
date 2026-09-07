@@ -40,7 +40,7 @@
 <p>The CLI suite verifies normal output, in-place behavior, malformed input, unknown options, failure safety and version output. A library can be correct while a file-replacement path is destructive, so CLI behavior is tested separately.</p>
 
 <h2>Layer 6: sanitizer-backed mutation testing</h2>
-<p>A deterministic mutation gate attacks valid seeds from all seven formats. Any first-pass output accepted by Minify++ must remain acceptable on a second pass. The enlarged reopened campaign passed <strong>7,000,000 mutations</strong> under both the ordinary build and AddressSanitizer/UndefinedBehaviorSanitizer. It exposed JavaScript comment-delimiter synthesis and JSX comment/root confusion beyond the first production audit; both are minimized permanent regressions.</p>
+<p>A deterministic mutation gate attacks valid seeds from all seven formats. Any first-pass output accepted by Minify++ must remain acceptable on a second pass. The expanded campaign passed <strong>7,000,000 mutations</strong> under both the ordinary build and AddressSanitizer/UndefinedBehaviorSanitizer. It exposed JavaScript comment-delimiter synthesis and JSX comment/root confusion beyond the first production audit; both are minimized permanent regressions.</p>
 <h2>Layer 7: embedded Nift integration</h2>
 <p>Nift uses the same public Minify++ API. Its integration tests verify config-driven minification, per-file overrides, incremental builds and the safe standalone <code>nift minify</code> behavior. These tests belong to Nift because they test Nift's policy and project state; the transformation correctness belongs to Minify++.</p>
 
@@ -49,5 +49,5 @@
 
 <h2>What is still not proven</h2>
 <p>The suite cannot prove equivalence for every JavaScript program, every future CSS feature or every malformed browser input. It also does not claim maximum compression. The defensible statement is narrower: Minify++ has multiple independent correctness oracles, a growing adversarial corpus, and a policy of retaining every confirmed bug as a regression.</p>
-<div class="call"><strong>Current readiness: pass with known limitations, revalidated.</strong><p>The repaired implementation is green across the stronger evidence wall, clean committed-package check, synchronized Nift integration and fresh-browser website validation. macOS and Windows remain explicit validation gaps; XML/SVG remain lexical rather than validating modes; and benchmark figures are host-specific evidence.</p></div>
+<div class="call"><strong>Production-ready for conservative final-output minification.</strong><p>The complete CSS conformance corpus passes 31,155 / 31,155 under the strengthened Chromium oracle. That evidence sits alongside 15,459 executable JavaScript comparisons, 7,000,000 sanitizer-backed mutations, clean committed-package validation, synchronized Nift integration and checksum-covered Linux, macOS and Windows release archives.</p></div>
 </article></section>

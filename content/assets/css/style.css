@@ -52,12 +52,13 @@ code:not(pre code){font:600 0.9em ui-monospace;background:var(--card);padding:.1
 .card{background:var(--card);padding:26px}
 .score{display:grid;grid-template-columns:210px 1fr 45px;gap:12px;align-items:center;margin:12px 0}
 .bar{height:7px;background:var(--line)}
-.bar i{display:block;height:100%;background:var(--a)}
+.bar i{display:block;height:100%;background:var(--g)}
 footer{border-top:1px solid var(--line);display:flex;justify-content:space-between;padding:25px 4vw;color:var(--mut)}
 .wide{max-width:1180px;margin:0 auto;padding:70px 5vw}
 .wide>h2,.split h2{font-size:clamp(2.2rem,4vw,4rem);max-width:900px;margin:.25em 0}
 .split{display:grid;grid-template-columns:1.15fr 0.85fr;gap:55px;align-items:center}
-.call{border-left:5px solid var(--a);background:var(--card);padding:22px 25px;margin:28px 0}
+.call{border-left:5px solid var(--g);background:var(--card);padding:22px 25px;margin:28px 0}
+.call.warn{border-left-color:var(--a)}
 .call p:last-child{margin-bottom:0}
 .more{color:var(--a);font-weight:750}
 .cards.inset{max-width:none;margin:28px 0}

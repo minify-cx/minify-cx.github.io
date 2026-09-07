@@ -9,7 +9,7 @@
 <div class="score"><span>Architectural focus</span><div class="bar"><i style="width:98%"></i></div><strong>9.8</strong></div>
 <div class="score"><span>Safety philosophy</span><div class="bar"><i style="width:97%"></i></div><strong>9.7</strong></div>
 <div class="score"><span>Regression evidence</span><div class="bar"><i style="width:98%"></i></div><strong>9.8</strong></div>
-<div class="score"><span>Independent conformance evidence</span><div class="bar"><i style="width:92%"></i></div><strong>9.2</strong></div>
+<div class="score"><span>Independent conformance evidence</span><div class="bar"><i style="width:98%"></i></div><strong>9.8</strong></div>
 <div class="score"><span>Web-format breadth</span><div class="bar"><i style="width:91%"></i></div><strong>9.1</strong></div>
 <div class="score"><span>Standalone CLI experience</span><div class="bar"><i style="width:93%"></i></div><strong>9.3</strong></div>
 <div class="score"><span>AST-level optimisation</span><div class="bar"><i style="width:28%"></i></div><strong>2.8</strong></div>
@@ -21,9 +21,10 @@
 <p>A previous evidence wall did not prevent Minify++ from corrupting CSS used by its own website. That matters: it demonstrated that focused fixtures, fuzzing and idempotence could all miss a stable but semantically different transformation.</p>
 <p>The response was appropriately technical. A separate conformance repository now extracts CSS from Web Platform Tests, runs the minifier in batches and asks Chromium to parse both sides. The oracle compares structured rules, exact selectors, conditions, declarations and relevant descriptor fields while retaining raw browser serialization for every disagreement.</p>
 
-<h2>What 31,137 external cases taught us</h2>
-<p>The audited full snapshot contained 31,137 WPT-derived cases. Before the final defect repairs, 30,579 passed the structured comparison and 558 remained diagnostic CSSOM differences, with no minify errors or browser/source rejection. Triage found 17 cases representing real Minify++ defect families and two UTF-16 extraction defects in the harness. The other 539 reduced to verified lexical-trivia differences.</p>
-<p>The important outcome is not a marketing percentage. It is that native nesting, selector namespaces, escaped identifiers, invalid declaration recovery and bad-string handling produced concrete fixes and permanent regressions. The project also records that a fresh full run is required before claiming a new all-cases result.</p>
+<h2>From 31,137-case triage to 31,155 / 31,155</h2>
+<p>The first strengthened snapshot contained 31,137 WPT-derived cases. It produced 30,579 structured passes and 558 diagnostics. Triage found 17 cases representing real Minify++ defect families, two UTF-16 extraction defects in the harness and 539 verified lexical-trivia differences.</p>
+<p>The important outcome was not the initial pass count. Native nesting, selector namespaces, escaped identifiers, invalid declaration recovery and bad-string handling produced concrete fixes and permanent regressions. Adversarial review then strengthened the oracle again to inspect descriptor-bearing rules, <code>@import</code> and <code>@charset</code>, exposing an additional hex-escape whitespace defect that the earlier comparison had missed.</p>
+<p>After both the implementation and oracle were corrected, the final corpus contained 31,155 cases at WPT revision <code>b89af32bc8f4</code>. All 31,155 passed with zero CSSOM differences, minification errors, browser rejections, source rejections or unverified cases. That closed the fresh full-run step rather than leaving it as future work.</p>
 <p><a href="@pathto('docs/conformance')">Read the conformance methodology and results.</a></p>
 
 <h2>Why the scanner architecture still makes sense</h2>
@@ -39,7 +40,7 @@
 <p>That does not prove universal portability, but it removes the old limitation that macOS and Windows had not been directly validated. The remaining boundaries are product boundaries: XML/SVG are conservative lexical modes rather than validating parsers; TypeScript compilation, source maps, bundling, tree shaking and mangling remain outside scope.</p>
 
 <h2>What I would improve next</h2>
-<ul><li>Run and publish a fresh full CSS corpus snapshot after the repaired implementation and revised oracle.</li><li>Use the same corpus and oracle for a reviewed Lightning CSS comparison.</li><li>Explore an HTML conformance adapter only after defining a DOM-level semantic contract that avoids false equivalence.</li><li>Keep expanding minimized regressions whenever external corpora or real projects expose a new boundary.</li><li>Measure compression and performance without confusing smaller output with greater correctness.</li></ul>
+<ul><li>Keep the WPT revision, tool identity and raw result evidence pinned for every published corpus run.</li><li>Use the same corpus and oracle for a reviewed Lightning CSS comparison.</li><li>Explore an HTML conformance adapter only after defining a DOM-level semantic contract that avoids false equivalence.</li><li>Keep expanding minimized regressions whenever external corpora or real projects expose a new boundary.</li><li>Measure compression and performance without confusing smaller output with greater correctness.</li></ul>
 
 <h2>Where I land</h2>
 <p>Minify++ v1.1.1 is a credible production tool for its documented conservative scope. The reason is not that its tests are numerous; it is that the project has repeatedly improved the independence of its oracles, preserved failures as regressions and kept claims narrower than the evidence.</p>

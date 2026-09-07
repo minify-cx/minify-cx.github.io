@@ -61,13 +61,19 @@ if grep -F 'Current decision: PASS WITH KNOWN LIMITATIONS.' public/index.html >/
     exit 1
 fi
 grep -F '31,137 WPT-derived CSS cases audited.' public/index.html >/dev/null
-grep -F '30,579' public/docs/conformance.html >/dev/null
+grep -F 'Final result: 31,155 / 31,155 passing.' public/docs/conformance.html >/dev/null
+grep -F 'zero CSSOM differences, minification errors, browser rejections, source rejections or unverified cases' public/docs/conformance.html >/dev/null
 grep -F 'updated after the CSS conformance audit and v1.1.1 release' public/docs/ai-opinion.html >/dev/null
-grep -F '31,137 WPT-derived cases' public/docs/production-readiness.html >/dev/null
+grep -F 'From 31,137-case triage to 31,155 / 31,155' public/docs/ai-opinion.html >/dev/null
+grep -F 'final CSS conformance run passed all 31,155 WPT-derived cases' public/docs/production-readiness.html >/dev/null
 grep -F '17 browser-relevant cases' public/docs/production-readiness.html >/dev/null
 grep -F 'Production-ready within the documented contract.' public/docs/production-readiness.html >/dev/null
 if grep -F 'PASS WITH KNOWN LIMITATIONS' public/docs/production-readiness.html >/dev/null; then
     echo 'stale production-readiness verdict found' >&2
+    exit 1
+fi
+if grep -rF --include='*.html' 'fresh full run' public/docs/conformance.html public/docs/ai-opinion.html public/docs/production-readiness.html >/dev/null; then
+    echo 'stale CSS conformance next-step language found' >&2
     exit 1
 fi
 test -s public/assets/favicon.svg

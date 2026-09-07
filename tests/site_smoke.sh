@@ -63,6 +63,13 @@ fi
 grep -F '31,137 WPT-derived CSS cases audited.' public/index.html >/dev/null
 grep -F '30,579' public/docs/conformance.html >/dev/null
 grep -F 'updated after the CSS conformance audit and v1.1.1 release' public/docs/ai-opinion.html >/dev/null
+grep -F '31,137 WPT-derived cases' public/docs/production-readiness.html >/dev/null
+grep -F '17 browser-relevant cases' public/docs/production-readiness.html >/dev/null
+grep -F 'Production-ready within the documented contract.' public/docs/production-readiness.html >/dev/null
+if grep -F 'PASS WITH KNOWN LIMITATIONS' public/docs/production-readiness.html >/dev/null; then
+    echo 'stale production-readiness verdict found' >&2
+    exit 1
+fi
 test -s public/assets/favicon.svg
 test -s public/sitemap.xml
 

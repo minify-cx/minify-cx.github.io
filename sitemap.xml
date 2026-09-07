@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://minify.cx/</loc></url>
+  <url><loc>https://minify.cx/docs.html</loc></url>
+  <url><loc>https://minify.cx/docs/getting-started.html</loc></url>
+  <url><loc>https://minify.cx/docs/cli.html</loc></url>
+  <url><loc>https://minify.cx/docs/api.html</loc></url>
+  <url><loc>https://minify.cx/docs/formats.html</loc></url>
+  <url><loc>https://minify.cx/docs/architecture.html</loc></url>
+  <url><loc>https://minify.cx/docs/comparisons.html</loc></url>
+  <url><loc>https://minify.cx/docs/performance.html</loc></url>
+  <url><loc>https://minify.cx/docs/benchmarks.html</loc></url>
+  <url><loc>https://minify.cx/docs/battle-tested.html</loc></url>
+  <url><loc>https://minify.cx/docs/memory-safety.html</loc></url>
+  <url><loc>https://minify.cx/docs/production-readiness.html</loc></url>
+  <url><loc>https://minify.cx/docs/ai-opinion.html</loc></url>
+  <url><loc>https://minify.cx/docs/ai-development.html</loc></url>
+</urlset>

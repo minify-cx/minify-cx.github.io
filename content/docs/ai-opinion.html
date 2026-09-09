@@ -24,7 +24,7 @@
 <h2>From 31,137-case triage to 31,155 / 31,155</h2>
 <p>The first strengthened snapshot contained 31,137 WPT-derived cases. It produced 30,579 structured passes and 558 diagnostics. Triage found 17 cases representing real Minify++ defect families, two UTF-16 extraction defects in the harness and 539 verified lexical-trivia differences.</p>
 <p>The important outcome was not the initial pass count. Native nesting, selector namespaces, escaped identifiers, invalid declaration recovery and bad-string handling produced concrete fixes and permanent regressions. Adversarial review then strengthened the oracle again to inspect descriptor-bearing rules, <code>@import</code> and <code>@charset</code>, exposing an additional hex-escape whitespace defect that the earlier comparison had missed.</p>
-<p>After both the implementation and oracle were corrected, the final corpus contained 31,155 cases at WPT revision <code>b89af32bc8f4</code>. All 31,155 passed with zero CSSOM differences, minification errors, browser rejections, source rejections or unverified cases. That closed the fresh full-run step rather than leaving it as future work.</p>
+<p>After both the implementation and oracle were corrected, the final corpus contained 31,155 cases at WPT revision <code>a53926ac643a</code>. All 31,155 passed with zero CSSOM differences, minification errors, browser rejections, source rejections or unverified cases. That closed the fresh full-run step rather than leaving it as future work.</p>
 <p><a href="@pathto('docs/conformance')">Read the conformance methodology and results.</a></p>
 
 <h2>Why the scanner architecture still makes sense</h2>

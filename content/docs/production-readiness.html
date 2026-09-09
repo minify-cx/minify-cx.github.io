@@ -11,7 +11,7 @@
 <h2>What the CSS conformance work changed</h2>
 <p>The earlier test wall was strong enough to find many scanner errors, but it still missed a real stylesheet corruption. The response was to add an independent oracle rather than simply add one more fixture. The conformance lab extracts CSS from Web Platform Tests, minifies it in bounded batches, then asks Chromium whether the original and transformed stylesheets produce the same structured rules, selectors, conditions, declarations and descriptors.</p>
 <p>In the first strengthened snapshot, 30,579 of 31,137 cases passed the structured comparison. Of 558 diagnostics, 17 exposed real Minify++ defects, two exposed UTF-16 extraction defects in the harness, and 539 reduced to verified lexical-trivia differences. Further adversarial review expanded the oracle to cover descriptor-bearing rules, <code>@import</code> and <code>@charset</code>, exposing an additional escape-whitespace defect.</p>
-<div class="call"><strong>The corrected full corpus passes 31,155 / 31,155.</strong><p>At WPT revision <code>b89af32bc8f4</code>, the repaired implementation and strengthened oracle completed with zero CSSOM differences, minification errors, browser rejections, source rejections or unverified cases.</p></div>
+<div class="call"><strong>The corrected full corpus passes 31,155 / 31,155.</strong><p>At WPT revision <code>a53926ac643a</code>, the repaired implementation and strengthened oracle completed with zero CSSOM differences, minification errors, browser rejections, source rejections or unverified cases.</p></div>
 <p><a href="@pathto('docs/conformance')">Read the complete conformance methodology and results.</a></p>
 
 <h2>Evidence is deliberately layered</h2>

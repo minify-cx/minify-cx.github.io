@@ -15,6 +15,18 @@
 <p>At Test262 revision <code>419d3e0a2273ba01a3bfcbec423f2801425b8e93</code>, 48,011 tests met the source-selection contract. Of those, 39,741 could execute in the selected Node runtime and all 39,741 produced equivalent observable behavior after minification. The remaining 8,270 are recorded as runtime-inapplicable, dominated by unsupported <code>Temporal</code> coverage; they are not reported as passes.</p>
 <p>The earlier 239 source/runtime incompatibilities drove a metadata and runtime audit. The harness now parses Test262 YAML metadata, implements the required async and <code>$262</code> hooks, classifies unsupported feature families and host constraints, isolates process failures in bounded batches, and supports deterministic shards. That work also exposed and repaired Minify++ defects involving nested template literals, Unicode line separators in removed comments and regular-expression boundaries after identifier keywords.</p>
 
+<h2>JSX/TSX: 221 / 221 eligible programs</h2>
+<p>At TypeScript revision <code>1e4744d68260a7cb91b62b12edc3f6a2187faaf1</code>, all 221 eligible virtual JSX/TSX programs preserve the pinned TypeScript parser's exact non-trivia token stream. Fifty-six parser-negative or otherwise source-rejected virtual programs are counted outside the denominator. The campaign repaired JSX-root detection and ASI-significant boundaries in Minify++.</p>
+
+<h2>JSON: 93 / 93 eligible documents</h2>
+<p>At JSONTestSuite revision <code>1ef36fa01286573e846ac449e8683f8833c5b26a</code>, all 93 valid unique-key parsing fixtures preserve a lossless decimal-backed JSON data model. The extractor separately counts 223 invalid or implementation-defined cases and two duplicate-key cases rather than allowing last-key-wins parsing to hide a change.</p>
+
+<h2>XML: 535 / 535 eligible documents</h2>
+<p>Against the SHA-256-pinned W3C XML Conformance Test Suite archive, all 535 strict standalone UTF-8 documents preserve a namespace-aware canonical tree. The denominator deliberately excludes 2,176 doctype/entity-dependent cases, 91 non-UTF-8 inputs and 256 source-rejected negative or unsupported cases. Comments are removable trivia; elements, namespaces, attributes, text and processing instructions are compared.</p>
+
+<h2>SVG: 1,176 / 1,176 eligible documents</h2>
+<p>At WPT revision <code>aed18189e54793ee12286eb96509e87df27f52dd</code>, all 1,176 eligible standalone SVG documents preserve the strict XML structural projection. Thirty-nine server-substituted or tentative fixtures, 37 support/resource fixtures and six parser-inapplicable documents are explicitly excluded. This is structural evidence, not a claim of pixel-identical browser rendering.</p>
+
 <h2>How the audit reached the final result</h2>
 <p>The first strengthened full snapshot contained 31,137 extracted cases. It produced 30,579 structured passes and 558 diagnostics. Triage showed that 17 cases represented browser-relevant Minify++ defects, two came from UTF-16 extraction errors in the harness, and 539 reduced to verified lexical-trivia differences.</p>
 <p>Those findings drove repairs to selector boundaries, escaped identifiers, malformed-declaration recovery and bad-string handling. A subsequent adversarial review also found that the oracle did not inspect descriptors such as <code>@counter-style</code>, allowing a CSS hex-escape whitespace defect to compare as passing. The oracle and implementation were corrected, extraction produced 31,155 cases, and the entire corpus was rerun at WPT revision <code>b89af32bc8f4</code>.</p>

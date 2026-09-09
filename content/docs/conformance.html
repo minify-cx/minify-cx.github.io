@@ -1,11 +1,19 @@
 <section class="doc">@input("templates/sidebar.html")<article>
 <p class="ey">Conformance · independent corpora and browser semantics</p>
-<h1>CSS evidence beyond hand-written fixtures.</h1>
-<p class="lead">The separate Minify++ conformance lab extracts transformable CSS cases from Web Platform Tests, runs Minify++ in batches, and compares the original and transformed stylesheets through Chromium's CSS parser and structured CSSOM.</p>
+<h1>Independent evidence beyond hand-written fixtures.</h1>
+<p class="lead">Separate Minify++ conformance repositories exercise CSS and HTML from Web Platform Tests and JavaScript from Test262. Each suite pins its upstream revision, records explicit exclusions and compares the original and transformed input through an independent semantic oracle.</p>
 
 <div class="facts"><div><strong>31,155</strong><span>WPT-derived cases in the final full corpus</span></div><div><strong>31,155</strong><span>cases passing the corrected Chromium oracle</span></div><div><strong>17</strong><span>earlier cases exposing real Minify++ defect families</span></div><div><strong>0</strong><span>final differences, errors, rejections or unverified cases</span></div></div>
 
 <div class="call"><strong>Final result: 31,155 / 31,155 passing.</strong><p>After repairing Minify++ and strengthening the oracle to cover descriptor-bearing rules, <code>@import</code> and <code>@charset</code>, the complete corpus passed with zero CSSOM differences, minification errors, browser rejections, source rejections or unverified cases.</p></div>
+
+<h2>HTML: 9,651 / 9,651 eligible documents</h2>
+<p>At WPT revision <code>aed18189e54793ee12286eb96509e87df27f52dd</code>, the HTML suite extracted 9,651 eligible UTF-8 documents. Every transformed document produced the same retained DOM projection as its source, with zero DOM differences, minifier errors or oracle errors.</p>
+<p>Eligibility is intentionally explicit: 588 support or template-path files, 240 unresolved server/generator templates and 28 non-UTF-8 inputs were excluded and counted. The audit initially retained 14 DOM differences. Triage found real Minify++ boundary and preservation defects rather than dismissing them; fixes now cover recoverable attribute quotes, unquoted-value boundaries, malformed raw-text openers, inline white-space preservation, raw-text elements, foreign SVG/MathML subtrees, EOF comments and tag whitespace. Each repaired family is retained in the standalone regression suite.</p>
+
+<h2>JavaScript: 39,741 / 39,741 runtime-applicable programs</h2>
+<p>At Test262 revision <code>419d3e0a2273ba01a3bfcbec423f2801425b8e93</code>, 48,011 tests met the source-selection contract. Of those, 39,741 could execute in the selected Node runtime and all 39,741 produced equivalent observable behavior after minification. The remaining 8,270 are recorded as runtime-inapplicable, dominated by unsupported <code>Temporal</code> coverage; they are not reported as passes.</p>
+<p>The earlier 239 source/runtime incompatibilities drove a metadata and runtime audit. The harness now parses Test262 YAML metadata, implements the required async and <code>$262</code> hooks, classifies unsupported feature families and host constraints, isolates process failures in bounded batches, and supports deterministic shards. That work also exposed and repaired Minify++ defects involving nested template literals, Unicode line separators in removed comments and regular-expression boundaries after identifier keywords.</p>
 
 <h2>How the audit reached the final result</h2>
 <p>The first strengthened full snapshot contained 31,137 extracted cases. It produced 30,579 structured passes and 558 diagnostics. Triage showed that 17 cases represented browser-relevant Minify++ defects, two came from UTF-16 extraction errors in the harness, and 539 reduced to verified lexical-trivia differences.</p>
